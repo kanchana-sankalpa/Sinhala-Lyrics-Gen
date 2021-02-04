@@ -18,9 +18,9 @@ def text_cleaner(text):
 
 """Beginning of experiments"""
 
-textgen = textgenrnn(config_path='weights/Model_1/RapLyrics_word2_01_config.json',
-                     vocab_path='weights/Model_1/RapLyrics_word2_01_vocab.json',
-                     weights_path='weights/Model_1/RapLyrics_word2_01_weights.hdf5')
+textgen = textgenrnn(config_path='weights/RapLyrics_word2_01_config.json',
+                     vocab_path='weights/RapLyrics_word2_01_vocab.json',
+                     weights_path='weights/RapLyrics_word2_01_weights.hdf5')
 
 #textgen.generate_samples(prefix="everyday i",
                         # temperatures=[0.2, 0.5, 1.0])

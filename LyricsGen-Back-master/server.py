@@ -6,9 +6,9 @@ def get_model_api():
     '''Return lambda function for API'''
     # 1 Initilize model once and for all and reload weights
 
-    config_path = 'weights/Model_1/RapLyrics_word2_01_config.json'
-    vocab_path = 'weights/Model_1/RapLyrics_word2_01_vocab.json'
-    weights_path = 'weights/Model_1/RapLyrics_word2_01_weights.hdf5'
+    config_path = 'weights/RapLyrics_word2_01_config.json'
+    vocab_path = 'weights/RapLyrics_word2_01_vocab.json'
+    weights_path = 'weights/RapLyrics_word2_01_weights.hdf5'
 
     textgen = textgenrnn(config_path=config_path,
                          vocab_path=vocab_path,
