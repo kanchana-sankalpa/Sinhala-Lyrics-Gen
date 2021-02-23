@@ -21,25 +21,25 @@ max_gen_length: length of the generation during training
 
 def main():
     # Generate word level model
-    textgen = textgenrnn(name="RapLyrics_word2_01")
+    textgen = textgenrnn(name="sew_v2")
 
     textgen.reset()
 
     # TODO choose between lowered, augmented and vanilla dataset
-    textgen.train_from_file('datasets/sinhala_data.txt',
+    textgen.train_from_file('datasets/sew_file_01_V1.txt',
                             new_model=True,
                             rnn_layers=2,
                             rnn_size=128, #default 128
                             rnn_bidirectional=True,
-                            max_length=10,
-                            max_words=41000,  # reduce to 34000 if we use the lowered dataset
-                            dim_embeddings=300,
-                            num_epochs=50,
+                            max_length=20,
+                            max_words=34000,  # reduce to 34000 if we use the lowered dataset 41000
+                            dim_embeddings=100,
+                            num_epochs=30,
                             word_level=True,
                             dropout=0,  # don't use with word model
                             train_size=1.0,
                             gen_epochs=5,
-                            max_gen_length=50
+                            max_gen_length=10
                             )
 
     print(textgen.model.summary())
