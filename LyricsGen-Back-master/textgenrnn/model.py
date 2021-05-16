@@ -14,7 +14,7 @@ def textgenrnn_model(num_classes, cfg, context_size=None,
     Builds the model architecture for textgenrnn and
     loads the specified weights for the model.
     '''
-
+    print('create textgenrnn_model')
     input = Input(shape=(cfg['max_length'],), name='input')
     embedded = Embedding(num_classes, cfg['dim_embeddings'],
                          input_length=cfg['max_length'],
@@ -22,7 +22,7 @@ def textgenrnn_model(num_classes, cfg, context_size=None,
 
     if dropout > 0.0:
         embedded = SpatialDropout1D(dropout, name='dropout')(embedded)
-
+        
     rnn_layer_list = []
     for i in range(cfg['rnn_layers']):
         prev_layer = embedded if i is 0 else rnn_layer_list[-1]

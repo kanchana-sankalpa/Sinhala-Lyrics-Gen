@@ -56,15 +56,19 @@ class textgenrnn:
         with open(vocab_path, 'r',
                   encoding='utf8', errors='ignore') as json_file:
             self.vocab = json.load(json_file)
-
+            print('self.vocab')
+            #print(self.vocab)
         self.tokenizer = Tokenizer(filters='', char_level=True)
+        print('self.tokenizer')
+        #print(self.tokenizer)
         self.tokenizer.word_index = self.vocab
         self.num_classes = len(self.vocab) + 1
         self.model = textgenrnn_model(self.num_classes,
                                       cfg=self.config,
                                       weights_path=weights_path)
         self.indices_char = dict((self.vocab[c], c) for c in self.vocab)
-
+        print('self.indices_char')
+        #print(self.indices_char)
     def generate(self, n=1, return_as_list=False, prefix=None,
                  temperature=0.5, max_gen_length=300):
         gen_texts = []
@@ -118,37 +122,44 @@ class textgenrnn:
 
         if context_labels:
             context_labels = LabelBinarizer().fit_transform(context_labels)
-
+            print("context_labels")
+            print(context_labels)
         if 'prop_keep' in kwargs:
             train_size = prop_keep
-
+            print("train_size")
+            print(train_size)
         if self.config['word_level']:
             texts = [text_to_word_sequence(text, filters='') for text in texts]
-
+            #print(texts)
         # calculate all combinations of text indices + token indices
         indices_list = [np.meshgrid(np.array(i), np.arange(
             len(text) + 1)) for i, text in enumerate(texts)]
         indices_list = np.block(indices_list)
-
+        print("indices_list")
+        print(indices_list)
         # If a single text, there will be 2 extra indices, so remove them
         # Also remove first sequences which use padding
         if self.config['single_text']:
             indices_list = indices_list[self.config['max_length']:-2, :]
 
         indices_mask = np.random.rand(indices_list.shape[0]) < train_size
-
+        print("indices_mask")
+        print(indices_mask)
         gen_val = None
         val_steps = None
         if train_size < 1.0 and validation:
             indices_list_val = indices_list[~indices_mask, :]
             gen_val = generate_sequences_from_texts(
                 texts, indices_list_val, self, context_labels, batch_size)
+            print(gen_val)
             val_steps = max(
                 int(np.floor(indices_list_val.shape[0] / batch_size)), 1)
+            print(val_steps)
 
         indices_list = indices_list[indices_mask, :]
-
+        print(indices_list)
         num_tokens = indices_list.shape[0]
+        print(num_tokens)
         assert num_tokens >= batch_size, "Fewer tokens than batch_size."
 
         level = 'word' if self.config['word_level'] else 'character'
@@ -225,6 +236,7 @@ class textgenrnn:
         self.tokenizer = Tokenizer(filters='',
                                    char_level=(not self.config['word_level']), lower=False)
         self.tokenizer.fit_on_texts(texts)
+        
 
         # Limit vocab to max_words
         max_words = self.config['max_words']
@@ -235,9 +247,14 @@ class textgenrnn:
             self.tokenizer.word_index[self.META_TOKEN] = len(
                 self.tokenizer.word_index) + 1
         self.vocab = self.tokenizer.word_index
+        print('self.vocab')
+        print(self.vocab)
         self.num_classes = len(self.vocab) + 1
+        print('self.num_classes')
+        print(self.num_classes)
         self.indices_char = dict((self.vocab[c], c) for c in self.vocab)
-
+        print('self.indices_char')
+        print(self.indices_char)
         # Create a new, blank model w/ given params
         self.model = textgenrnn_model(self.num_classes,
                                       dropout=dropout,
@@ -282,15 +299,20 @@ class textgenrnn:
         if context:
             texts, context_labels = textgenrnn_texts_from_file_context(
                 file_path)
+            
         else:
             texts = textgenrnn_texts_from_file(file_path, header,
                                                delim, is_csv)
+            #print(texts)
 
         print("{:,} texts collected.".format(len(texts)))
         if new_model:
+            print('train_new_model')
             self.train_new_model(
                 texts, context_labels=context_labels, **kwargs)
+            
         else:
+            print('train_on_text')
             self.train_on_texts(texts, context_labels=context_labels, **kwargs)
 
     def train_from_largetext_file(self, file_path, new_model=True, **kwargs):

@@ -57,7 +57,7 @@
         <header class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             <h1 class="WebsiteName">පන්හිඳ - සිංහල පද ගලපමු </h1>
         </header>
-		<h6 class="WebsiteName"> <a href="./version1_textgenn.html">පළමු  පිටපත</a>  </h6>
+		<h6 class="WebsiteName"> <a href="./index.html">දෙවන පිටපත</a>  </h6>
     </div>
     <div class="row spacer">
         <div class="col-sm-1 col-md-2 col-lg-3"></div>
@@ -108,10 +108,10 @@
         <div class="row line-separator"></div>
         <div class="row whiter">
             <div class="text-center" style="font-size: 0.7rem;font-weight: 250;">
-			දෙවන පිටපතට සහය  :  https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/shakespeare_with_tpu_and_keras.ipynb      පසුතලය :  කැටපත් පවුර, සීගිරිය    (Sigiri Graffiti)  http://thenationaltrust.lk/wp-content/uploads/2018/06/nds-nt-sigiriya.pdf
+			පළමු පිටපත සදහා  සහය :  fushenkao - https://github.com/fushenkao/Sinhala-Lyrics-Gen , minimaxir - https://github.com/minimaxir/textgenrnn      පසුතලය :  කැටපත් පවුර, සීගිරිය    (Sigiri Graffiti)  http://thenationaltrust.lk/wp-content/uploads/2018/06/nds-nt-sigiriya.pdf
 	         </div>
 			<div class="text-center" style="font-size: 0.7rem;font-weight: 250;">
-			වෙනස්කම් වල ඉතිහාසය : https://ksankalpa.blogspot.com/2021/02/panhidalyrics-chages-log.html
+			වෙනස්කම් වල ඉතිහාසය  : https://ksankalpa.blogspot.com/2021/02/panhidalyrics-chages-log.html
 			      </div>
             <!-- <div class="col-md-3 col-lg-3 text-right hidden-sm-down" style="padding-right: 3%">
                 <a href="#" id="about1">About</a>
@@ -207,7 +207,7 @@
 				//https://sinhala-lyrics-gen-backend.herokuapp.com/apiUS
                 var settings = {
                     "async": true,
-                    "url": "https://sinhala-lyrics-gen-backend.herokuapp.com/apiTPU",
+                    "url": "http://127.0.0.1:5000/apiUS",
                     "method": "POST",
                     "headers": {
                         "Content-Type": "application/x-www-form-urlencoded"
@@ -229,16 +229,15 @@
                             instance.setProgress(1)
                             instance.stop(1);
                             clearInterval(interval);
-							console.log(response.output);
                             $('#api_output').html(response.output);
-                            //updateTwitterValues(response.output);
+                            updateTwitterValues(response.output);
                         });
 
                         request.fail(function (jqXhr, textStatus, errorThrown) {
                             instance.setProgress(1)
                             instance.stop(-1);
                             clearInterval(interval);
-                            $('#api_output').html(" සමාවන්න ..පරිගණක ගැටලුවකි...නැවත උත්සහ කලත් ගැටලුව පවතී නම් ,,දැනුම් දෙන්න kanchana.genotec@gmail.com ");
+                            $('#api_output').html("Sorry, the server is asleep... \n Try again in a moment");
                             console.log(errorThrown);
                         });
                     }, 150);
